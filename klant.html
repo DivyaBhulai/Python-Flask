@@ -1,0 +1,135 @@
+<html lang="nl">
+<head>
+	<title>{{ titel }}</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!-- start navigatie balk -->
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>{{ titel }}</h1>
+    <p>Mission, Vision & Values</p>
+  </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">Logo</a>
+      <!-- <img src="/favicon.png" alt="HTML5 Icon" style="width:30px;height:30px;"> -->
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="prijsklasse">Prijsklasse</a></li>
+        <li><a href="opslag">Opslag</a></li>
+        <li><a href="eigenschappen">Eigenschappen</a></li>
+        <li><a href="contact">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if 'username' in session %}
+        <li><a href="logout"><span class="glyphicon glyphicon-user"></span> Uitloggen</a></li>
+        {% else: %}
+        <li><a href="login"><span class="glyphicon glyphicon-user"></span> Inloggen</a></li>
+        {% endif %}
+        <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Winkelmandje</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- einde navigatiebalk -->
+
+<h1 style="margin-left:437px;">Nieuwe klant </h1>
+
+  <form class="form-horizontal" action="{{ url_for('klant_toevoegen') }}" style="max-width:720px;margin:auto" method="POST">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="voornaam">Voornaam:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="voornaam" placeholder="Uw voornaam">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="achternaam">Achternaam:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="achternaam" placeholder="Uw achternaam">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="adres">Straat en huisnummer:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="adres" placeholder="Uw adres">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="postcode">Postcode:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="postcode" placeholder="Uw postcode">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="plaats">Plaats:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="plaats" placeholder="Uw plaats">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="land">Land:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="land" placeholder="Uw land">
+      </div>
+    </div>
+
+   <div class="form-group">
+     <label class="control-label col-sm-2" for="email">Email:</label>
+     <div class="col-sm-10">
+       <input type="email" class="form-control" name="email" placeholder="Uw emailadres">
+     </div>
+   </div>
+
+   <div class="form-group">
+     <label class="control-label col-sm-2" for="gebruikersnaam">Gebruikersnaam:</label>
+     <div class="col-sm-10">
+       <input type="text" class="form-control" name="gebruikersnaam" id="gebruikersnaam" placeholder="Kies een gebruikersnaam">
+     </div>
+   </div>
+
+   <div class="form-group">
+     <label class="control-label col-sm-2" for="pwd">Password:</label>
+     <div class="col-sm-10">
+       <input type="password" class="form-control" name="pwd" placeholder="Kies een wachtwoord">
+     </div>
+   </div>
+
+   <div class="form-group">
+     <div class="col-sm-offset-2 col-sm-10">
+       <button type="submit" class="btn btn-default">Submit</button>
+     </div>
+   </div>
+ </form>
+
+ <footer class="container-fluid text-center">
+ Copyright &copy; Divya Bhulai 2020
+ </footer>
+
+</body>
+</html>
