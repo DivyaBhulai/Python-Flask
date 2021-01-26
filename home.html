@@ -1,101 +1,43 @@
-<html lang="nl">
-<head>
-	<title>{{ titel }}</title>
+{% extends 'layout.html' %}
 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" />
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-</head>
-<body>
-
-<!-- start navigatie balk -->
-<div class="jumbotron">
-  <div class="container text-center">
-    <h1>{{ titel }}</h1>
-    <p>Mission, Vision & Values</p>
-  </div>
-</div>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand">Logo</a>
-      <!-- <img src="/favicon.png" alt="HTML5 Icon" style="width:30px;height:30px;"> -->
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="prijsklasse">Prijsklasse</a></li>
-        <li><a href="opslag">Opslag</a></li>
-        <li><a href="eigenschappen">Eigenschappen</a></li>
-        <li><a href="contact">Contact</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if 'username' in session %}
-          <li><a href="logout"><span class="glyphicon glyphicon-user"></span> Uitloggen</a></li>
-        {% else: %}
-          <li><a href="login"><span class="glyphicon glyphicon-user"></span> Inloggen</a></li>
-        {% endif %}
-        <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Winkelmandje</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<!-- einde navigatiebalk -->
-
-
+{% block content %}
 <div class="container">
   {% for product in rows %}
   <div class="row">
     <div class="col-sm-4">
       <div class="panel panel-primary">
         <div class="panel-heading">{{product.naam}}</div>
-        <div class="panel-body"><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:70%;" alt="Image"></div>
+        <div class="panel-body"><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:80%;" alt="Image"></div>
         <div class="panel-footer">&euro;{{product.prijs_ex}}</div>
-				{% if (product["voorraad"] == 0) %}
-					<div class="panel-footer">Uitverkocht</div>
-				{% else: %}
-					<div class="panel-footer">Nog {{product.voorraad}} op voorraad.</div>
-				{% endif %}
-          <div>
+	{% if (product["voorraad"] == 0) %}
+		<div class="panel-footer">Uitverkocht</div>
+	{% else: %}
+		<div class="panel-footer">Nog {{product.voorraad}} op voorraad.</div>
+	{% endif %}
+          	<div>
 
-          <form class="form-horizontal" action="{{ url_for('bestellen') }}" style="max-width:500px;" method="POST">
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="bestellen"></label>
-              <div class="col-sm-10">
-                <input type="hidden" class="form-control" name="product_ID" id="product_ID" value="{{product["product_ID"]}}">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-								{% if (product.voorraad == 0) %}
-								<span></span>
-								{% else: %}
-                <button type="submit" class="btn btn-default"><span><img src="{{ url_for('static', filename='images/winkelmandje.png') }}" width="70px;" alt="winkelmandje"></span></button>
-								{% endif %}
-							</div>
-            </div>
-          </form>
+		<form class="form-horizontal" action="{{ url_for('bestellen') }}" style="max-width:500px;" method="POST">
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="bestellen"></label>
+				<div class="col-sm-10">
+					<input type="hidden" class="form-control" name="product_ID" id="product_ID" value="{{product["product_ID"]}}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					{% if (product.voorraad == 0) %}
+					<span></span>
+					{% else: %}
+					<button type="submit" class="btn btn-default"><span><img src="{{ url_for('static', filename='images/winkelmandje.png') }}" width="70px;" alt="winkelmandje"></span></button>
+					{% endif %}
+				</div>
+            		</div>
+          	</form>
 
         </div>
-  </div>
-  </div>
+</div>
+</div>
     {% endfor %}
 <br><br>
 
-<footer class="container-fluid text-center">
-Copyright &copy; Divya Bhulai 2020
-</footer>
-
-</body>
-</html>
+{% endblock %}
