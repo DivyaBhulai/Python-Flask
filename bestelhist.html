@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h2>Bestelhistorie</h2>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Besteldatum</th>
+        <th>Artikel</th>
+        <th>Prijs</th>
+        <th>Betaalmiddel</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for product in bestellingen %}
+      <tr>
+        <td><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:20%;" alt="Image"></td>
+        <td>{{ product.datum }}</td>
+        <td>{{product.naam}}</td>
+        <td>&#8364;{{ product.bedrag }}</td>
+        <td>{{product.betaalmiddel}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
