@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h2>Winkelmandje</h2>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Artikel</th>
+        <th>Aantal</th>
+        <th>Prijs</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for product in bestellijst %}
+      <tr>
+        <td><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:20%;" alt="Image"></td>
+        <td>{{product.naam}}</td>
+        <td> {{ aantal_gekocht }}</td>
+        <td>&#8364;{{ product.prijs_ex }}</td>
+      </tr>
+      {% endfor %}
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="font-weight:bold;">BTW</td>
+        <td>&#8364;{{ "%.2f"|format(btw) }}</td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="font-weight:bold;">Totaal</td>
+        <td>&#8364; {{ "%.2f"|format(totale_prijs) }}</td>
+      </tr>
+
+  <!-- start betaalknop -->
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          {% if 'username' in session %}
+          <form class="form-horizontal" action="besteloverzicht" style="max-width:500px;" method="POST">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" style="margin-left: -25px;">Naar besteloverzicht</button>
+              </div>
+            </div>
+          </form>
+
+          {% else: %}
+          <form class="form-horizontal" action="login" style="max-width:500px;" method="POST">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" style="margin-left: -25px;">Naar besteloverzicht</button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+
+        </td>
+  <!-- end betaalknop -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
