@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h2>Besteloverzicht</h2>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Artikel</th>
+        <th>Aantal</th>
+        <th>Prijs</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for product in bestellijst %}
+      <tr>
+        <td><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:20%;" alt="Image"></td>
+        <td>{{product.naam}}</td>
+        <td> {{ aantal_gekocht }}</td>
+        <td>&#8364;{{ product.prijs_ex }}</td>
+      </tr>
+      {% endfor %}
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="font-weight:bold;">BTW</td>
+        <td>&#8364;{{ "%.2f"|format(btw) }}</td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="font-weight:bold;">Totaal</td>
+        <td>&#8364; {{ "%.2f"|format(totale_prijs) }}</td>
+      </tr>
+
+  <!-- start betaalknop -->
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <!--
+          <form class="form-horizontal" action="prijsklasse" style="max-width:500px;" method="POST">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" style="margin-left: -17px;">Betalen</button>
+              </div>
+            </div>
+          </form>
+          -->
+        </td>
+  <!-- end betaalknop -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
+<h2>Adresgegevens</h2>
+{% for gegeven in gegevens %}
+{{gegeven.voornaam}} {{gegeven.achternaam}} <br />
+{{gegeven.adres}} <br />
+{{gegeven.postcode}}  {{gegeven.plaats}} <br />
+{{gegeven.land}} <br />
+{% endfor %}
+</div>
+
+<div class="container">
+<h2>Betaalgegevens</h2>
+<form action="betaling" method="POST">
+  <label for="betaalmethode">Kies een betaalmethode</label>
+  <select id="betaalmethode" name="betaalmethode">
+    <option value="ideal">iDeal</option>
+    <option value="mastercard">Master Card</option>
+    <option value="visa">Visa</option>
+    <option value="paypal">Paypal</option>
+  </select>
+  <button type="submit" class="btn btn-default" style="margin-left: 10px;">Betalen</button>
+</form>
+</div>
+
+{% endblock %}
