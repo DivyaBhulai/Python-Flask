@@ -1,0 +1,22 @@
+/* Haal de navbar's default rounded borders weg en vergroot de bottom margin */
+.navbar {
+  margin-bottom: 50px;
+  border-radius: 0;
+  /*background-color: red;*/
+}
+
+/* Haal de jumbotron's default bottom margin weg*/
+ .jumbotron {
+  margin-bottom: 0;
+}
+
+/* Voeg een grijze achtergrond kleur en padding aan de footer */
+footer {
+  background-color: #f2f2f2;
+  padding: 25px;
+}
+
+.teller {
+  color: #ffff00;
+  font-weight: bold;
+}
