@@ -2,42 +2,51 @@
 
 {% block content %}
 <div class="container">
-  {% for product in rows %}
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">{{product.naam}}</div>
-        <div class="panel-body"><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:80%;" alt="Image"></div>
-        <div class="panel-footer">&euro;{{product.prijs_ex}}</div>
-	{% if (product["voorraad"] == 0) %}
-		<div class="panel-footer">Uitverkocht</div>
-	{% else: %}
-		<div class="panel-footer">Nog {{product.voorraad}} op voorraad.</div>
-	{% endif %}
-          	<div>
+	{% for product in rows %}
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">{{product.naam}}</div>
+				<div class="panel-body"><img src="/images/producten/{{product.plaatje}}" class="img-responsive" style="width:80%;" alt="Image"></div>
+				<div class="panel-footer">&euro;{{product.prijs_ex}}</div>
+				{% if (product["voorraad"] == 0) %}
+					<div class="panel-footer">Uitverkocht</div>
+				{% else: %}
+					<div class="panel-footer">Nog {{product.voorraad}} op voorraad.</div>
+				{% endif %}
+	  				<div>
 
-		<form class="form-horizontal" action="{{ url_for('bestellen') }}" style="max-width:500px;" method="POST">
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="bestellen"></label>
-				<div class="col-sm-10">
-					<input type="hidden" class="form-control" name="product_ID" id="product_ID" value="{{product["product_ID"]}}">
+					<form class="form-horizontal" action="{{ url_for('bestellen') }}" style="max-width:500px;" method="POST">
+						<div class="form-group">
+							<label class="control-label col-sm-2" for="bestellen"></label>
+							<div class="col-sm-10">
+								<input type="hidden" class="form-control" name="product_ID" id="product_ID" value="{{product["product_ID"]}}">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								{% if (product.voorraad == 0) %}
+								<span></span>
+								{% else: %}
+								<!--
+								<label for="aantal">Aantal</label>
+								<select class="btn btn-default" id="aantal" name="aantal">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								</select>
+								-->
+								<button type="submit" class="btn btn-default"><span><img src="{{ url_for('static', filename='images/winkelmandje.png') }}" width="70px;" alt="winkelmandje"></span></button>
+								{% endif %}
+							</div>
+						</div>
+					</form>
+
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					{% if (product.voorraad == 0) %}
-					<span></span>
-					{% else: %}
-					<button type="submit" class="btn btn-default"><span><img src="{{ url_for('static', filename='images/winkelmandje.png') }}" width="70px;" alt="winkelmandje"></span></button>
-					{% endif %}
-				</div>
-            		</div>
-          	</form>
-
-        </div>
-</div>
-</div>
-    {% endfor %}
-<br><br>
+		</div>
+		{% endfor %}
+		<br><br>
 
 {% endblock %}
