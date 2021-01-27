@@ -2,7 +2,7 @@ from typing import List, Any
 
 from flask import Flask, render_template, session, redirect, url_for, request
 from datetime import date
-import re
+import re, requests
 
 app = Flask(__name__, static_url_path = "/", static_folder = "static", template_folder="templates")
 
@@ -12,13 +12,15 @@ app.secret_key = 'hocuspocuspilatuspas'
 #@app.route('/')
 #def index():
 #    return render_template('home.html')
-@app.route('/api')
-def api():
-    import requests
-    search = input("Geef een zoekterm: ")
-    url = "https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=json&search=" + search
-    response = requests.get(url)
-    return redirect(response, code=302)
+#@app.route('/api', methods=['GET', 'POST'])
+#def api():
+#    if request.method == 'POST':
+#    search = input("Geef een zoekterm: ")
+#        zoekterm = request.form['zoekterm']
+#        url = "https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=json&search=" + zoekterm
+#        response = requests.get(url)
+     #   return redirect(response, code=302)
+#        render_template('api.html', response)
 
 @app.route('/contact')
 def contact():
@@ -175,6 +177,10 @@ def show_producten():
 
 @app.route('/bestellen', methods=['POST', 'GET'])
 def bestellen():
+    # aantal van een product
+    #   aantal = request.form['aantal']
+    #session['aantal'] = request.form['aantal']
+    session['aantal'] = 1
 
     if request.method == 'POST':
         try:
@@ -232,8 +238,6 @@ def Producten_In_Winkelmandje():
     conn.row_factory = sql.Row
     cur = conn.cursor()
 
-    #aantal van een product
-    session['aantal'] = 1
     #bestelde producten in winkelmandje
     prods = session['winkelmandje']
     # aantal producten in winkelmandje
@@ -330,29 +334,21 @@ def bereken_btw():
 def winkelmandje():
     bestellijst=Producten_In_Winkelmandje()
     aantal_gekocht = session['aantal']
-    totale_prijs= bereken_totale_prijs()
+    subtotaal= bereken_totale_prijs()
     btw = bereken_btw()
-    totale_prijs = totale_prijs + btw
-    #conn = sql.connect(DATABASE)
-    #conn.row_factory = sql.Row
-    #cur = conn.cursor()
-
-    #for i in bestellijst():
-    #cur.execute("SELECT SUM(prijs_ex) FROM producten WHERE product_ID IN bestellijst")
-        #prijs = row.fetchone[4]
-        #som = som + prijs
-    return render_template("winkelmandje.html", bestellijst=bestellijst, aantal_gekocht=aantal_gekocht, totale_prijs=totale_prijs, btw=btw)
+    totale_prijs = subtotaal + btw
+    return render_template("winkelmandje.html", bestellijst=bestellijst, aantal_gekocht=aantal_gekocht, totale_prijs=totale_prijs, btw=btw, subtotaal=subtotaal)
 
 @app.route('/besteloverzicht', methods=['POST', 'GET'])
 def overzicht():
 #Geef het besteloverzicht van de klant weer
     bestellijst = Producten_In_Winkelmandje()
     gegevens = adresgegevens()
-    totale_prijs = bereken_totale_prijs()
+    subtotaal = bereken_totale_prijs()
     btw = bereken_btw()
-    totale_prijs = totale_prijs + btw
+    totale_prijs = subtotaal + btw
     aantal_gekocht = session['aantal']
-    return render_template('besteloverzicht.html', bestellijst=bestellijst, gegevens=gegevens, aantal_gekocht=aantal_gekocht, totale_prijs=totale_prijs, btw=btw)
+    return render_template('besteloverzicht.html', bestellijst=bestellijst, gegevens=gegevens, aantal_gekocht=aantal_gekocht, totale_prijs=totale_prijs, btw=btw, subtotaal=subtotaal)
 
 @app.route('/bestelhist', methods=['POST', 'GET'])
 def bestelhist():
